@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jnu.student.myclass.DataDownload;
+import com.jnu.student.myclass.ShopLocation;
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdate;
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
 import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.tencent.tencentmap.mapsdk.maps.model.Marker;
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +69,9 @@ public class BaiduMapFragment extends Fragment {
         // 添加标记到地图上
         Marker my_marker = tencentMap.addMarker(markerOptions);
 
+        // 设置Marker支持点击
+        my_marker.setClickable(true);
+
         tencentMap.setOnMarkerClickListener(marker -> {
             if(marker.getId().equals(my_marker.getId())) {
                 // 自定义Marker被点击
@@ -73,8 +80,26 @@ public class BaiduMapFragment extends Fragment {
             return true;
         });
 
-        // 设置Marker支持点击
-        my_marker.setClickable(true);
+
+        // 创建一个异步线程
+        new Thread(() -> {
+            // 获得JSON数据
+            String responseData = new DataDownload().download("http://file.nidama.net/class/mobile_develop/data/bookstore.json");
+            ArrayList<ShopLocation> shopLocations = new DataDownload().parseJsonObjects(responseData);
+
+            // 切换回主线程（UI线程）
+            requireActivity().runOnUiThread(() -> {
+                TencentMap tencentMap1 = mapView.getMap();
+                for (ShopLocation shopLocation : shopLocations) {
+                    // 获得经纬度
+                    LatLng point11 = new LatLng(shopLocation.getLatitude(), shopLocation.getLongitude());
+                    MarkerOptions markerOptions1 = new MarkerOptions(point11)
+                            .title(shopLocation.getName());
+                    Marker my_marker02 = tencentMap1.addMarker(markerOptions1);
+
+                }
+            });
+        }).start();
         return rootView;
     }
 
@@ -104,4 +129,5 @@ public class BaiduMapFragment extends Fragment {
         super.onDestroy();
         mapView.onDestroy();
     }
+
 }

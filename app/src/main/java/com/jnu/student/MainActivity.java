@@ -16,7 +16,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String[] tabHeaderStrings = {"Shopping items", "baidu maps", "News", "CustomClockView"};
+    private String[] tabHeaderStrings = {"Shopping items", "baidu maps", "News", "CustomClockView",
+    "ReadBook"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class FragmentAdapter extends FragmentStateAdapter {
-        private static final int NUM_TABS = 4;
+        private static final int NUM_TABS = 5;
         public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
             super(fragmentManager, lifecycle);
         }
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     return new WebViewFragment();
                 case 3:
                     return new CustomClockView();
+                case 4:
+                    return new ReadBookFragment();
                 default:
                     return null;
             }

@@ -8,9 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class my_DateSave {
+public class myDateSave {
     Context context;
-    public my_DateSave(Context context) {
+    public myDateSave(Context context) {
         this.context = context;
     }
 

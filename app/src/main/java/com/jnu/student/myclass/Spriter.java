@@ -67,6 +67,12 @@ public class Spriter {
         canvas.drawBitmap(bitmap, getX(), getY(), mBitPaint);
     }
 
+    public boolean isPointInside(float touch_x, float touch_y) {
+        if (touch_x > x && touch_x < x + bitmap.getWidth())
+            return touch_y > y && touch_y < y + bitmap.getHeight();
+        return false;
+    }
+
     public float getX() {
         return x;
     }
@@ -99,9 +105,4 @@ public class Spriter {
         this.direction = direction;
     }
 
-    public boolean isPointInside(float touch_x, float touch_y) {
-        if (touch_x > x && touch_x < x + bitmap.getWidth())
-            return touch_y > y && touch_y < y + bitmap.getHeight();
-        return false;
-    }
 }

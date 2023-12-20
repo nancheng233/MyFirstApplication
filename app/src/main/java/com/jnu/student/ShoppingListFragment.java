@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jnu.student.myclass.ShopItem;
-import com.jnu.student.myclass.my_DateSave;
+import com.jnu.student.myclass.myDateSave;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public class ShoppingListFragment extends Fragment {
     int my_position;
     int my_cass;
 
-    my_DateSave my_dateSave;
+    myDateSave my_dateSave;
 
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -104,7 +104,7 @@ public class ShoppingListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         // 填充shopItems列表...
-        my_dateSave = new my_DateSave(requireActivity());
+        my_dateSave = new myDateSave(requireActivity());
         shopItems = my_dateSave.load();
         if (shopItems.size() == 0){
             shopItems.add(new ShopItem(R.drawable.bai_cai, "白菜", 1));
@@ -144,6 +144,7 @@ public class ShoppingListFragment extends Fragment {
         public void onBindViewHolder(ShopItemViewHolder holder, int position) {
             ShopItem currentItem = shopItems.get(position);
             holder.imageView.setImageResource(currentItem.getImageResource());
+            holder.imageView.setTag(currentItem.getImageResource());
             holder.name.setText(currentItem.getName());
             holder.price.setText(String.valueOf(currentItem.getPrice()));
         }
